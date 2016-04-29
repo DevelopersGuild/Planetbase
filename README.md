@@ -1,2 +1,2 @@
-# Pew Pew
-[Winter 2016] 2D shoot 'em up game for Android
+# Planetbase
+3D turn-based strategy game, drawing inspiration from [Moonbase Commander](https://en.wikipedia.org/wiki/Moonbase_Commander).
