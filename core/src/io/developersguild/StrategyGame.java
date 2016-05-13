@@ -38,7 +38,6 @@ public class StrategyGame extends Game {
 	private CameraController camController;
 
 	private ModelBuilder modelBuilder;
-	private Model gui;
 
 	private List<Model> models=new ArrayList<Model>();
 
@@ -80,18 +79,9 @@ public class StrategyGame extends Game {
 		camController = new CameraController(cam);
 		Gdx.input.setInputProcessor(camController);
 
-		gui=modelBuilder.createBox(0.4f, 0.4f, 0.005f, 
-				new Material(ColorAttribute.createDiffuse(Color.BROWN)), 
-				Usage.Normal 
-				| Usage.Position 
-				| Usage.TextureCoordinates);
-
 		//TODO not embed the file path into here
-		Material mat=gui.materials.get(0);
-		guiTex=new Texture("/home/planetguy/workspace/pew-pew/core/gui.png");
+		guiTex=new Texture("/home/planetguy/dev/3dxGame/core/src/gui.png");
 		guiTex.setWrap(TextureWrap.ClampToEdge, TextureWrap.ClampToEdge);
-
-		mat.set(new TextureAttribute(TextureAttribute.Diffuse, guiTex));
 
 		space=new Space();
 	}
@@ -101,7 +91,6 @@ public class StrategyGame extends Game {
 				modelBuilder.createBox(0.03f, 0.03f, 0.06f, 
 						new Material(ColorAttribute.createDiffuse(col)), 
 						Usage.Normal | Usage.Position)),
-				new ModelInstance(gui),
 				x,y,z);
 
 		space.addEntity(entity);
@@ -134,9 +123,7 @@ public class StrategyGame extends Game {
 		staticEntityBatch.render(planetSurface, environment);
 		staticEntityBatch.end();
 
-		if(selectedEntity != null) {
-			GuiRenderer.renderAttached(cam, selectedEntity, environment, deltaTime);
-		}
+		GuiRenderer.renderGui(cam, selectedEntity, environment, deltaTime);
 	}
 
 	private void handleSelectionSphere() {

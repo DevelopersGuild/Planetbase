@@ -2,22 +2,29 @@ package io.developersguild;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 
 public class GuiRenderer {
-	
-	public static ModelBatch guiBatch;
-	
-	public static void renderAttached(Camera cam, EntityStatic entity, Environment environment, float deltaTime){
-		guiBatch.begin(cam);
-		
-		//Gdx.gl.glEnable(Gdx.gl.GL_BLEND);
-		//Gdx.gl.glBlendFunc(Gdx.gl.GL_SRC_ALPHA,Gdx.gl.GL_ONE_MINUS_SRC_ALPHA);
-		
-		entity.renderGui(guiBatch, environment, cam, deltaTime);
 
-		guiBatch.end();
+	public static ModelBatch guiBatch;
+	private static SpriteBatch spriteBatch;
+
+	static{
+		spriteBatch=new SpriteBatch();
+		spriteBatch.enableBlending();
+	}
+
+	public static void renderGui(Camera cam, EntityStatic entity, Environment environment, float deltaTime){
+		spriteBatch.begin();
+		if(entity!=null) {
+			spriteBatch.draw(new TextureRegion(StrategyGame.guiTex), 0, 0);
+			entity.handleGuiInteraction(deltaTime, cam);
+		}
+		spriteBatch.end();
 	}
 
 }

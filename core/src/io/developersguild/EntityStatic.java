@@ -19,13 +19,11 @@ public class EntityStatic {
 	private Space parent;
 	
 	private final ModelInstance mainModel;
-	private final ModelInstance guiModel;
 	
 	private float timeHeld;
 
-	public EntityStatic(ModelInstance mainModel, ModelInstance guiModel, float x, float y, float z){
+	public EntityStatic(ModelInstance mainModel, float x, float y, float z){
 		this.mainModel=mainModel;
-		this.guiModel=guiModel;
 		this.position=new Vector3(x,y,z).nor();
 		mainModel.transform.set(position, new Quaternion().setFromCross(new Vector3(0,0,1), position));
 	}
@@ -37,14 +35,16 @@ public class EntityStatic {
 	public void renderGui(ModelBatch batch, Environment env, Camera cam, float deltaTime){
 		//guiModel.transform.set(position, new Quaternion().setFromCross(new Vector3(0,1,0), getHeading(cam)));
 
+		/*
 		Vector3 heading=getHeading(cam);
 		guiModel.transform.set(new Vector3(position).scl(1.05f),
 				new Quaternion()
 				.setFromCross(new Vector3(1,0,0), heading)
 				);
+		
 		//guiModel.transform.rotate(heading, (float) Math.acos(new Vector3(1,0,0).dot(heading))*180/MathUtils.PI);
 		batch.render(guiModel, env);
-		handleGuiInteraction(deltaTime, cam);
+		*/
 	}
 	
 	
