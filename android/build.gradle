@@ -1,4 +1,9 @@
 android {
+<<<<<<< HEAD
+    signingConfigs {
+    }
+=======
+>>>>>>> 765236f9b7ee08a1a8a5d218c70b207d9a77c18f
     buildToolsVersion "23.0.1"
     compileSdkVersion 20
     sourceSets {
@@ -15,6 +20,25 @@ android {
         instrumentTest.setRoot('tests')
     }
     defaultConfig {
+<<<<<<< HEAD
+        applicationId "io.developersguild.rebelinvader"
+        minSdkVersion 8
+        targetSdkVersion 20
+    }
+    buildTypes {
+        release {
+        }
+    }
+}
+// called every time gradle gets executed, takes the native dependencies of
+// the natives configuration, and extracts them to the proper libs/ folders
+// so they get packed with the APK.
+task copyAndroidNatives() {
+    file("libs/armeabi/").mkdirs();
+    file("libs/armeabi-v7a/").mkdirs();
+    file("libs/arm64-v8a/").mkdirs();
+    file("libs/x86_64/").mkdirs();
+=======
         applicationId "com.developersguild.pewpew"
         minSdkVersion 8
         targetSdkVersion 20
@@ -28,14 +52,24 @@ android {
 task copyAndroidNatives() { 
     file("libs/armeabi/").mkdirs();
     file("libs/armeabi-v7a/").mkdirs();
+>>>>>>> 765236f9b7ee08a1a8a5d218c70b207d9a77c18f
     file("libs/x86/").mkdirs();
 
     configurations.natives.files.each { jar ->
         def outputDir = null
+<<<<<<< HEAD
+        if (jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("libs/arm64-v8a")
+        if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("libs/armeabi-v7a")
+        if (jar.name.endsWith("natives-armeabi.jar")) outputDir = file("libs/armeabi")
+        if (jar.name.endsWith("natives-x86_64.jar")) outputDir = file("libs/x86_64")
+        if (jar.name.endsWith("natives-x86.jar")) outputDir = file("libs/x86")
+        if (outputDir != null) {
+=======
         if(jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("libs/armeabi-v7a")
         if(jar.name.endsWith("natives-armeabi.jar")) outputDir = file("libs/armeabi")
         if(jar.name.endsWith("natives-x86.jar")) outputDir = file("libs/x86")
         if(outputDir != null) {
+>>>>>>> 765236f9b7ee08a1a8a5d218c70b207d9a77c18f
             copy {
                 from zipTree(jar)
                 into outputDir
@@ -44,7 +78,10 @@ task copyAndroidNatives() {
         }
     }
 }
+<<<<<<< HEAD
+=======
 
+>>>>>>> 765236f9b7ee08a1a8a5d218c70b207d9a77c18f
 task run(type: Exec) {
     def path
     def localProperties = project.file("../local.properties")
@@ -64,12 +101,20 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
+<<<<<<< HEAD
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'io.developersguild.rebelinvader/io.developersguild.rebelinvader.AndroidLauncher'
+}
+// sets up the Android Eclipse project, using the old Ant based build.
+eclipse {
+    // need to specify Java source sets explicitly, SpringSource Gradle Eclipse plugin
+=======
     commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.developersguild.pewpew/com.developersguild.pewpew.AndroidLauncher'
 }
 
 // sets up the Android Eclipse project, using the old Ant based build.
 eclipse {
     // need to specify Java source sets explicitely, SpringSource Gradle Eclipse plugin
+>>>>>>> 765236f9b7ee08a1a8a5d218c70b207d9a77c18f
     // ignores any nodes added in classpath.file.withXml
     sourceSets {
         main {
@@ -83,8 +128,13 @@ eclipse {
     }
 
     classpath {
+<<<<<<< HEAD
+        plusConfigurations += [project.configurations.compile]
+        containers 'com.android.ide.eclipse.adt.ANDROID_FRAMEWORK', 'com.android.ide.eclipse.adt.LIBRARIES'
+=======
         plusConfigurations += [ project.configurations.compile ]        
         containers 'com.android.ide.eclipse.adt.ANDROID_FRAMEWORK', 'com.android.ide.eclipse.adt.LIBRARIES'       
+>>>>>>> 765236f9b7ee08a1a8a5d218c70b207d9a77c18f
     }
 
     project {
@@ -97,12 +147,19 @@ eclipse {
         buildCommand "com.android.ide.eclipse.adt.ApkBuilder"
     }
 }
+<<<<<<< HEAD
+=======
 
+>>>>>>> 765236f9b7ee08a1a8a5d218c70b207d9a77c18f
 // sets up the Android Idea project, using the old Ant based build.
 idea {
     module {
         sourceDirs += file("src");
+<<<<<<< HEAD
+        scopes = [COMPILE: [plus: [project.configurations.compile]]]
+=======
         scopes = [ COMPILE: [plus:[project.configurations.compile]]]        
+>>>>>>> 765236f9b7ee08a1a8a5d218c70b207d9a77c18f
 
         iml {
             withXml {
@@ -112,7 +169,11 @@ idea {
                 builder.component(name: "FacetManager") {
                     facet(type: "android", name: "Android") {
                         configuration {
+<<<<<<< HEAD
+                            option(name: "UPDATE_PROPERTY_FILES", value: "true")
+=======
                             option(name: "UPDATE_PROPERTY_FILES", value:"true")
+>>>>>>> 765236f9b7ee08a1a8a5d218c70b207d9a77c18f
                         }
                     }
                 }
@@ -120,3 +181,8 @@ idea {
         }
     }
 }
+<<<<<<< HEAD
+dependencies {
+}
+=======
+>>>>>>> 765236f9b7ee08a1a8a5d218c70b207d9a77c18f
