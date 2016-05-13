@@ -45,6 +45,9 @@ public class StrategyGame extends Game {
 	private EntityStatic selectedEntity;
 	private boolean overheldSelectEntity=false;
 	public static Texture guiTex;
+	
+	public static ColorAttribute blackAttr=ColorAttribute.createDiffuse(0f,0f,0f, 1f);
+	public static ColorAttribute blueAttr =ColorAttribute.createDiffuse(0f, 0f, 1f, 1f);
 
 	@Override
 	public void create() {
@@ -86,10 +89,10 @@ public class StrategyGame extends Game {
 		space=new Space();
 	}
 
-	public EntityStatic createEntity(float x, float y, float z, Color col){
+	public EntityStatic createEntity(float x, float y, float z){
 		EntityStatic entity=new EntityStatic(new ModelInstance(
 				modelBuilder.createBox(0.03f, 0.03f, 0.06f, 
-						new Material(ColorAttribute.createDiffuse(col)), 
+						new Material(blueAttr), 
 						Usage.Normal | Usage.Position)),
 				x,y,z);
 
@@ -104,7 +107,7 @@ public class StrategyGame extends Game {
 		float deltaTime=Gdx.graphics.getDeltaTime();
 
 		if(Gdx.input.isKeyJustPressed(Keys.C)) {
-			createEntity(-cam.direction.x, -cam.direction.y, -cam.direction.z, Color.BLUE);
+			createEntity(-cam.direction.x, -cam.direction.y, -cam.direction.z);
 		}
 
 		handleSelectionSphere();
@@ -141,6 +144,9 @@ public class StrategyGame extends Game {
 			if(overheldSelectEntity){
 				overheldSelectEntity=false;
 			} else if(selectGroup != 0) {
+				if(selectedEntity != null) {
+					selectedEntity.deselect();
+				}
 				List<EntityStatic> candidates=space.getWithin(cam.direction.cpy().scl(-1), selectGroup);
 
 				//Trim the selected entity and any that have no GUIs
@@ -154,6 +160,7 @@ public class StrategyGame extends Game {
 
 				if(candidates.size() == 1){
 					selectedEntity=candidates.get(0);
+					selectedEntity.select();
 				} else {
 					selectedEntity=null;
 				}

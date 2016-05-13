@@ -63,7 +63,7 @@ public class EntityStatic {
 		} else if(timeHeld != 0) {
 			Trajectory trajectory=new Trajectory(position,  getHeading(cam), timeHeld);
 			float[] endpoint=trajectory.getEndpoint(1.0f);
-			StrategyGame.INSTANCE.createEntity(endpoint[0], endpoint[1], endpoint[2], Color.BLACK);
+			StrategyGame.INSTANCE.createEntity(endpoint[0], endpoint[1], endpoint[2]);
 			timeHeld=0;
 		}
 	}
@@ -88,6 +88,14 @@ public class EntityStatic {
 	
 	public boolean canSelect(){
 		return true;
+	}
+
+	public void select(){
+		this.mainModel.materials.get(0).set(StrategyGame.blackAttr);
+	}
+	
+	public void deselect() {
+		this.mainModel.materials.get(0).set(StrategyGame.blueAttr);
 	}
 	
 }

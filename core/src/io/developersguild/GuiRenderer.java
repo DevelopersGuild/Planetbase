@@ -23,6 +23,8 @@ public class GuiRenderer {
 		if(entity!=null) {
 			spriteBatch.draw(new TextureRegion(StrategyGame.guiTex), 0, 0);
 			entity.handleGuiInteraction(deltaTime, cam);
+		} else {
+			
 		}
 		spriteBatch.end();
 	}
