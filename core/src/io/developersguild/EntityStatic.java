@@ -48,7 +48,6 @@ public class EntityStatic {
 	}
 	
 	
-	//TODO
 	public Vector3 getHeading(Camera viewpoint){
 		//rejection of up onto position. In the plane of up and position, and perpendicular to position.
 		return new Vector3(viewpoint.up).sub(proj(viewpoint.up, position)).nor();

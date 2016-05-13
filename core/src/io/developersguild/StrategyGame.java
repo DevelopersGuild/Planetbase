@@ -31,7 +31,6 @@ public class StrategyGame extends Game {
 
 	public PerspectiveCamera cam;
 	public ModelBatch staticEntityBatch;
-	public ModelBatch guiBatch;
 	public ModelInstance planetSurface;
 
 	public Space space;
@@ -59,7 +58,7 @@ public class StrategyGame extends Game {
 		environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
 
 		staticEntityBatch = new ModelBatch();
-		guiBatch=new ModelBatch();
+		GuiRenderer.guiBatch=new ModelBatch();
 
 		cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		float cameraDist=0.8f;
@@ -136,18 +135,7 @@ public class StrategyGame extends Game {
 		staticEntityBatch.end();
 
 		if(selectedEntity != null) {
-			guiBatch.begin(cam);
-			Gdx.gl.glDepthMask(false);
-			Gdx.gl.glEnable(Gdx.gl.GL_BLEND);
-			Gdx.gl.glBlendFunc(Gdx.gl.GL_SRC_ALPHA,Gdx.gl.GL_ONE_MINUS_SRC_ALPHA);
-			
-			
-			selectedEntity.renderGui(guiBatch, environment, cam, deltaTime);
-			guiBatch.end();
-
-			//draw transparent object ...
-			Gdx.gl.glDisable(Gdx.gl.GL_BLEND);
-			Gdx.gl.glDepthMask(true);
+			GuiRenderer.renderAttached(cam, selectedEntity, environment, deltaTime);
 		}
 	}
 
