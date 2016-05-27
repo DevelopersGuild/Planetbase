@@ -1,5 +1,8 @@
 package io.developersguild;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
@@ -22,33 +25,19 @@ public class EntityStatic {
 	
 	public float timeHeld;
 	
-	public int health=10;
+	private int health=10;
+	
+	private List<EntityStatic> children=new ArrayList<EntityStatic>();
 
-	public EntityStatic(ModelInstance mainModel, float x, float y, float z){
-		this.mainModel=mainModel;
-		this.position=new Vector3(x,y,z).nor();
+	public EntityStatic(ModelInstance modelInstance, Vector3 position2) {
+		this.mainModel=modelInstance;
+		this.position=position2;
 		mainModel.transform.set(position, new Quaternion().setFromCross(new Vector3(0,0,1), position));
 	}
-	
+
 	public void renderEntity(ModelBatch batch, Environment env){
 		batch.render(mainModel, env);
 	}
-	
-	public void renderGui(ModelBatch batch, Environment env, Camera cam, float deltaTime){
-		//guiModel.transform.set(position, new Quaternion().setFromCross(new Vector3(0,1,0), getHeading(cam)));
-
-		/*
-		Vector3 heading=getHeading(cam);
-		guiModel.transform.set(new Vector3(position).scl(1.05f),
-				new Quaternion()
-				.setFromCross(new Vector3(1,0,0), heading)
-				);
-		
-		//guiModel.transform.rotate(heading, (float) Math.acos(new Vector3(1,0,0).dot(heading))*180/MathUtils.PI);
-		batch.render(guiModel, env);
-		*/
-	}
-	
 	
 	public Vector3 getHeading(Camera viewpoint){
 		//rejection of up onto position. In the plane of up and position, and perpendicular to position.
@@ -64,8 +53,7 @@ public class EntityStatic {
 			timeHeld += deltaTime;
 		} else if(timeHeld != 0) {
 			Trajectory trajectory=new Trajectory(position,  getHeading(cam), timeHeld);
-			float[] endpoint=trajectory.getEndpoint(1.0f);
-			StrategyGame.INSTANCE.createEntity(endpoint[0], endpoint[1], endpoint[2]);
+			StrategyGame.INSTANCE.fire(trajectory);
 			timeHeld=0;
 		}
 	}

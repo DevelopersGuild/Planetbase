@@ -64,6 +64,7 @@ public class GuiRenderer {
 		} else {
 			spriteBatch.draw(textureRegions[1], 0, 0);
 		}
+		spriteBatch.draw(textureRegions[3+StrategyGame.selectedProjectile.ordinal()], 0, 0);
 		spriteBatch.end();
 	}
 

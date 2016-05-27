@@ -38,8 +38,6 @@ public class StrategyGame extends Game {
 	public Environment environment;
 	private CameraController camController;
 
-	private ModelBuilder modelBuilder;
-
 	private List<Model> models=new ArrayList<Model>();
 
 	private float selectGroup=0;
@@ -48,6 +46,8 @@ public class StrategyGame extends Game {
 
 	public static ColorAttribute blackAttr=ColorAttribute.createDiffuse(0f,0f,0f, 1f);
 	public static ColorAttribute blueAttr =ColorAttribute.createDiffuse(0f, 0f, 1f, 1f);
+	
+	public static Projectiles selectedProjectile=Projectiles.BASE;
 
 	@Override
 	public void create() {
@@ -69,8 +69,8 @@ public class StrategyGame extends Game {
 		cam.far = 300f;
 		cam.update();
 
-		modelBuilder = new ModelBuilder();
-		Model world = modelBuilder.createSphere(2f,2f,2f, 
+		Assets.modelBuilder = new ModelBuilder();
+		Model world = Assets.modelBuilder.createSphere(2f,2f,2f, 
 				80, 80, /* 80x80 seems to be enough polys to look smooth */
 				new Material(ColorAttribute.createDiffuse(Color.GREEN)),
 				Usage.Position | Usage.Normal);
@@ -84,24 +84,6 @@ public class StrategyGame extends Game {
 		space=new Space();
 	}
 
-	public EntityStatic createEntity(float x, float y, float z){
-		List<EntityStatic> collidingEntities=space.getWithin(new Vector3(x,y,z), 0.03);
-
-		if(collidingEntities.size() == 0) {
-			EntityStatic entity=new EntityStatic(new ModelInstance(
-					modelBuilder.createBox(0.03f, 0.03f, 0.06f, 
-							new Material(blueAttr), 
-							Usage.Normal | Usage.Position)),
-					x,y,z);
-
-			space.addEntity(entity);
-
-			return entity; 
-		} else {
-			return null;
-		}
-	}
-
 	@Override
 	public void render() {
 
@@ -109,6 +91,10 @@ public class StrategyGame extends Game {
 
 		if(Gdx.input.isKeyJustPressed(Keys.C)) {
 			createEntity(-cam.direction.x, -cam.direction.y, -cam.direction.z);
+		}
+		
+		if(Gdx.input.isKeyJustPressed(Keys.P)) {
+			selectedProjectile = Projectiles.values()[(selectedProjectile.ordinal()+1) % Projectiles.VALID_PROJECTILES];
 		}
 
 		handleSelectionSphere();
@@ -128,6 +114,26 @@ public class StrategyGame extends Game {
 		staticEntityBatch.end();
 
 		GuiRenderer.renderGui(cam, selectedEntity, environment, deltaTime);
+	}
+
+	@Deprecated //Only for creating the first one
+	private void createEntity(float f, float g, float h) {
+		Vector3 position=new Vector3(f,g,h);
+		List<EntityStatic> collidingEntities=space.getWithin(position, 0.03);
+
+		if(collidingEntities.size() == 0) {
+			EntityStatic entity=new EntityStatic(new ModelInstance(
+					Assets.modelBuilder.createBox(0.03f, 0.03f, 0.06f, 
+							new Material(StrategyGame.blueAttr), 
+							Usage.Normal | Usage.Position)),
+					position);
+
+			space.addEntity(entity);
+		} else {
+			for(EntityStatic e:collidingEntities){
+				e.damage(2);
+			}
+		}
 	}
 
 	private void handleSelectionSphere() {
@@ -191,7 +197,7 @@ public class StrategyGame extends Game {
 
 	public void renderSelectTooltip(){
 		float radius=selectGroup+0.03f;
-		ModelInstance sphere=new ModelInstance(modelBuilder.createSphere(radius, radius, radius
+		ModelInstance sphere=new ModelInstance(Assets.modelBuilder.createSphere(radius, radius, radius
 				,(int)(100*radius),(int)(100*radius), //This can be lower-resolution
 				new Material(ColorAttribute.createDiffuse(1,0,0,0.5f)),
 				Usage.Position | Usage.Normal));
@@ -201,6 +207,11 @@ public class StrategyGame extends Game {
 
 	public boolean hasGui(){
 		return true;
+	}
+
+	public void fire(Trajectory trajectory) {
+		float[] endpoint=trajectory.getEndpoint(1.0f);
+		selectedProjectile.land(new Vector3(endpoint), space);
 	}
 
 }
