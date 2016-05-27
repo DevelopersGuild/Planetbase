@@ -20,7 +20,9 @@ public class EntityStatic {
 	
 	private final ModelInstance mainModel;
 	
-	private float timeHeld;
+	public float timeHeld;
+	
+	public int health=10;
 
 	public EntityStatic(ModelInstance mainModel, float x, float y, float z){
 		this.mainModel=mainModel;
@@ -96,6 +98,13 @@ public class EntityStatic {
 	
 	public void deselect() {
 		this.mainModel.materials.get(0).set(StrategyGame.blueAttr);
+	}
+	
+	public void damage(int damage){
+		health -= damage;
+		if(health < 0){
+			parent.removeEntity(this);
+		}
 	}
 	
 }

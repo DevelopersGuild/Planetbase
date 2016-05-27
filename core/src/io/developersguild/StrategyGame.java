@@ -23,6 +23,7 @@ import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.math.Vector3;
 
 
 public class StrategyGame extends Game {
@@ -44,8 +45,7 @@ public class StrategyGame extends Game {
 	private float selectGroup=0;
 	private EntityStatic selectedEntity;
 	private boolean overheldSelectEntity=false;
-	public static Texture guiTex;
-	
+
 	public static ColorAttribute blackAttr=ColorAttribute.createDiffuse(0f,0f,0f, 1f);
 	public static ColorAttribute blueAttr =ColorAttribute.createDiffuse(0f, 0f, 1f, 1f);
 
@@ -60,7 +60,6 @@ public class StrategyGame extends Game {
 		environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
 
 		staticEntityBatch = new ModelBatch();
-		GuiRenderer.guiBatch=new ModelBatch();
 
 		cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		float cameraDist=0.8f;
@@ -82,23 +81,25 @@ public class StrategyGame extends Game {
 		camController = new CameraController(cam);
 		Gdx.input.setInputProcessor(camController);
 
-		//TODO not embed the file path into here
-		guiTex=new Texture("/home/planetguy/dev/3dxGame/core/src/gui.png");
-		guiTex.setWrap(TextureWrap.ClampToEdge, TextureWrap.ClampToEdge);
-
 		space=new Space();
 	}
 
 	public EntityStatic createEntity(float x, float y, float z){
-		EntityStatic entity=new EntityStatic(new ModelInstance(
-				modelBuilder.createBox(0.03f, 0.03f, 0.06f, 
-						new Material(blueAttr), 
-						Usage.Normal | Usage.Position)),
-				x,y,z);
+		List<EntityStatic> collidingEntities=space.getWithin(new Vector3(x,y,z), 0.03);
 
-		space.addEntity(entity);
+		if(collidingEntities.size() == 0) {
+			EntityStatic entity=new EntityStatic(new ModelInstance(
+					modelBuilder.createBox(0.03f, 0.03f, 0.06f, 
+							new Material(blueAttr), 
+							Usage.Normal | Usage.Position)),
+					x,y,z);
 
-		return entity;
+			space.addEntity(entity);
+
+			return entity; 
+		} else {
+			return null;
+		}
 	}
 
 	@Override
