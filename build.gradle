@@ -17,21 +17,12 @@ allprojects {
 
     version = '1.0'
     ext {
-<<<<<<< HEAD
         appName = "rebel-invader"
         gdxVersion = '1.9.2'
         roboVMVersion = '1.12.0'
         box2DLightsVersion = '1.4'
         ashleyVersion = '1.7.0'
         aiVersion = '1.8.0'
-=======
-        appName = "pew-pew"
-        gdxVersion = '1.8.0'
-        roboVMVersion = '1.12.0'
-        box2DLightsVersion = '1.4'
-        ashleyVersion = '1.7.0'
-        aiVersion = '1.7.0'
->>>>>>> 765236f9b7ee08a1a8a5d218c70b207d9a77c18f
     }
 
     repositories {
@@ -63,7 +54,6 @@ project(":android") {
         compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
-<<<<<<< HEAD
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
@@ -73,13 +63,6 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86_64"
-=======
-        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
-        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi"
-        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
-        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
->>>>>>> 765236f9b7ee08a1a8a5d218c70b207d9a77c18f
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
     }
 }

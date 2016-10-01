@@ -1,15 +1,9 @@
 apply plugin: "java"
 
 sourceCompatibility = 1.6
-<<<<<<< HEAD
 sourceSets.main.java.srcDirs = ["src/"]
 
 project.ext.mainClassName = "io.developersguild.rebelinvader.desktop.DesktopLauncher"
-=======
-sourceSets.main.java.srcDirs = [ "src/" ]
-
-project.ext.mainClassName = "com.developersguild.pewpew.desktop.DesktopLauncher"
->>>>>>> 765236f9b7ee08a1a8a5d218c70b207d9a77c18f
 project.ext.assetsDir = new File("../android/assets");
 
 task run(dependsOn: classes, type: JavaExec) {
@@ -23,15 +17,9 @@ task run(dependsOn: classes, type: JavaExec) {
 task dist(type: Jar) {
     from files(sourceSets.main.output.classesDir)
     from files(sourceSets.main.output.resourcesDir)
-<<<<<<< HEAD
     from { configurations.compile.collect { zipTree(it) } }
     from files(project.assetsDir);
 
-=======
-    from {configurations.compile.collect {zipTree(it)}}
-    from files(project.assetsDir);
- 
->>>>>>> 765236f9b7ee08a1a8a5d218c70b207d9a77c18f
     manifest {
         attributes 'Main-Class': project.mainClassName
     }
@@ -47,7 +35,6 @@ eclipse {
 }
 
 task afterEclipseImport(description: "Post processing after project generation", group: "IDE") {
-<<<<<<< HEAD
     doLast {
         def classpath = new XmlParser().parse(file(".classpath"))
         new Node(classpath, "classpathentry", [kind: 'src', path: 'assets']);
@@ -56,14 +43,4 @@ task afterEclipseImport(description: "Post processing after project generation",
         printer.setPreserveWhitespace(true)
         printer.print(classpath)
     }
-=======
-  doLast {
-    def classpath = new XmlParser().parse(file(".classpath"))
-    new Node(classpath, "classpathentry", [ kind: 'src', path: 'assets' ]);
-    def writer = new FileWriter(file(".classpath"))
-    def printer = new XmlNodePrinter(new PrintWriter(writer))
-    printer.setPreserveWhitespace(true)
-    printer.print(classpath)
-  }
->>>>>>> 765236f9b7ee08a1a8a5d218c70b207d9a77c18f
 }
